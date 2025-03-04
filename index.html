@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заполнение данных</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-xl md:max-w-2xl lg:max-w-3xl">
+        <h2 class="text-2xl font-semibold mb-6 text-gray-800 text-center">Заполнение данных</h2>
+        <form id="passportForm" class="space-y-6">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 flex items-center"><i class="fas fa-user mr-2"></i> Фамилия Имя Отчество</label>
+                    <input type="text" id="fio" class="w-full p-3 border rounded-xl focus:ring focus:ring-blue-300" placeholder="Иванов Иван Иванович" required>
+                    <p class="mt-1 text-sm text-gray-500">Пример: Иванов Иван Иванович</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 flex items-center"><i class="fas fa-id-card mr-2"></i> Паспорт серия</label>
+                        <input type="text" id="passportSeries" maxlength="4" minlength="4" class="w-full p-3 border rounded-xl focus:ring focus:ring-blue-300" placeholder="1234" required>
+                        <p class="mt-1 text-sm text-gray-500">4 цифры</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 flex items-center"><i class="fas fa-id-card mr-2"></i> Паспорт номер</label>
+                        <input type="text" id="passportNumber" maxlength="6" minlength="6" class="w-full p-3 border rounded-xl focus:ring focus:ring-blue-300" placeholder="123456" required>
+                        <p class="mt-1 text-sm text-gray-500">6 цифр</p>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 flex items-center"><i class="fas fa-calendar-alt mr-2"></i> Дата выдачи</label>
+                    <input type="date" id="issueDate" class="w-full p-3 border rounded-xl focus:ring focus:ring-blue-300" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 flex items-center"><i class="fas fa-building mr-2"></i> Выдан (гос орган)</label>
+                    <input type="text" id="issuedBy" class="w-full p-3 border rounded-xl focus:ring focus:ring-blue-300" placeholder="УФМС России по г. Москве" required>
+                    <p class="mt-1 text-sm text-gray-500">Пример: УФМС России по г. Москве</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 flex items-center"><i class="fas fa-barcode mr-2"></i> Код подразделения</label>
+                    <input type="text" id="departmentCode" maxlength="7" minlength="7" class="w-full p-3 border rounded-xl focus:ring focus:ring-blue-300" placeholder="123-456" required>
+                    <p class="mt-1 text-sm text-gray-500">Пример: 123-456</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 flex items-center"><i class="fas fa-map-marker-alt mr-2"></i> Адрес регистрации</label>
+                    <input type="text" id="address" class="w-full p-3 border rounded-xl focus:ring focus:ring-blue-300" placeholder="г. Москва, ул. Пушкина, д. 1" required>
+                    <p class="mt-1 text-sm text-gray-500">Пример: г. Москва, ул. Пушкина, д. 1</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 flex items-center"><i class="fas fa-envelope mr-2"></i> Email</label>
+                    <input type="email" id="email" class="w-full p-3 border rounded-xl focus:ring focus:ring-blue-300" placeholder="ivan@example.com" required>
+                    <p class="mt-1 text-sm text-gray-500">Пример: ivan@example.com</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 flex items-center"><i class="fas fa-phone-alt mr-2"></i> Номер телефона</label>
+                    <input type="tel" id="phone" class="w-full p-3 border rounded-xl focus:ring focus:ring-blue-300" placeholder="+7 (999) 123-45-67" required>
+                    <p class="mt-1 text-sm text-gray-500">Пример: +7 (999) 123-45-67</p>
+                </div>
+            </div>
+            <div class="border-dashed border-2 border-gray-300 p-6 rounded-xl text-center">
+                <p class="text-sm text-gray-500 flex items-center justify-center"><i class="fas fa-upload mr-2"></i> Перетащите копию паспорта сюда или <span class="text-blue-500 cursor-pointer">загрузите файл</span></p>
+                <input type="file" id="passportCopy" class="hidden" required>
+            </div>
+            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition font-semibold">Отправить</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('passportForm').addEventListener('submit', function(event) {
+            const series = document.getElementById('passportSeries').value;
+            const number = document.getElementById('passportNumber').value;
+            const code = document.getElementById('departmentCode').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+
+            if (series.length !== 4 || !/^\d+$/.test(series)) {
+                alert('Серия: 4 цифры.');
+                event.preventDefault(); return;
+            }
+            if (number.length !== 6 || !/^\d+$/.test(number)) {
+                alert('Номер: 6 цифр.');
+                event.preventDefault(); return;
+            }
+            if (code.length !== 7 || !/^\d{3}-\d{3}$/.test(code)) {
+                alert('Код: 123-456.');
+                event.preventDefault(); return;
+            }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert('Email некорректен.');
+                event.preventDefault(); return;
+            }
+            if (!/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/.test(phone)) {
+                alert('Телефон: +7 (999) 123-45-67.');
+                event.preventDefault(); return;
+            }
+
+            // Дополнительные проверки и обработка данных
+        });
+
+        const numInputs = ['passportSeries', 'passportNumber', 'departmentCode'];
+        numInputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9-]/g, '');
+            });
+        });
+
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let input = e.target.value.replace(/\D/g, '').substring(0, 11);
+            let areaCode = input.substring(1, 4);
+            let middle = input.substring(4, 7);
+            let last = input.substring(7, 9);
+            let final = input.substring(9, 11);
+            if (input.length > 10) {
+                this.value = `+${input[0]} (${areaCode}) ${middle}-${last}-${final}`;
+            } else if (input.length > 3) {
+                this.value = `+${input[0]} (${areaCode}) ${middle}`;
+            } else if (input.length > 0) {
+                this.value = `+${input[0]}`;
+            }
+        });
+    </script>
+</body>
+</html>
